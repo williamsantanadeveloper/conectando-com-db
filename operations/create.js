@@ -1,11 +1,14 @@
+const db = require('../connection')
 
-app.get('/usuarios/todos', function (request, response) {
+function createUser(request, response) {
+    db.query(`INSERT INTO usuarios (nome) values ('${request.body.nome}')`,
+        function (error, rows) {
+            error
+                ? error
+                : usuarios = rows
 
-    db.query("SELECT * FROM usuarios;", function (error, rows) {
+            response.send(usuarios);
+        })
+}
 
-        error ? error : usuarios = rows;
-
-        // response.send(usuarios); browser
-        console.log(usuarios);
-    })
-});
+module.exports = { createUser };

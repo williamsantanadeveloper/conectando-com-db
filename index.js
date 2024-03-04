@@ -1,33 +1,25 @@
 const express = require('express');
-const mysql = require('mysql');
 const app = express();
+app.use(express.urlencoded());
+app.use(express.json());
 
-// Cuidado, não é o jeito certo de fazer!!!
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'davigay'
-})
+const read = require('./operations/read')
+const create = require('./operations/create')
+// ...
 
-db.connect(function (error) {
-    if (error) {
-        throw error
-    };
-    console.log("Connected!");
-});
 
 app.get('/usuarios/todos', function (request, response) {
+    read.readAllUsers(request, response)
+})
+app.get('/usuarios/:id', function (request, response) {
+    read.readUser(request, response)
+})
 
-    db.query("SELECT * FROM usuarios;", function (error, rows) {
+app.post('/usuarios/criar', function (request, response) {
+    create.createUser(request, response)
+})
 
-        error ? error : usuarios = rows;
-
-        // response.send(usuarios); browser
-        console.log(usuarios);
-    })
-});
 
 app.listen(8000, () => {
-    console.log(`Estou ouvindo a porta ${8000}`)
+    console.log(`To ouvindo a porta ${8000}`)
 })
