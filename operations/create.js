@@ -1,4 +1,4 @@
-const db = require('../connection')
+const db = require('../connection');
 
 function createUser(request, response) {
     db.query(`INSERT INTO usuarios (nome) values ('${request.body.nome}')`,
